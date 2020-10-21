@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<div id="results">
+    <h1>Movies Found</h1>
+    {% set resp_id = 0 %}
+    {% for resp_id, d in page_info %}
+        {% set film_name = d['Title'] %}
+        {% set film_year = d['Year'] %}
+        {% set film_img = d['Poster'] %}
+        {% set film_type = d['Type'] %}
+        
+        <div class="result" data-result-id="{{ resp_id }}">
+            <a href="/{{ film_name }}" class="btn btn-light btn-block">
+                <div class="film">
+                    <div class="img-box"><img src="{{ film_img }}" alt="{{ film_name }}"></div>
+                    <div class="film-details">
+                        <div class="film-name film-detail"><span>Title:</span>  {{ film_name }}</div>
+                        <div class="film-type film-detail"><span>Type:</span>  {{ film_type }}</div>
+                        <div class="film-year film-detail"><span>Year:</span>  {{ film_year }}</div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        
+
+    {% endfor %}
+
+</div>
+{% endblock %}

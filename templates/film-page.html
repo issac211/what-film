@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+
+{% set poster = film_info['Poster'] %}
+{% set rated = film_info['Rated'] %}
+{% set title = film_info['Title'] %}
+{% set imdb_rating = film_info['imdbRating'] %}
+{% set imdb_votes = film_info['imdbVotes'] %}
+{% set released = film_info['Released'] %}
+{% set runtime = film_info['Runtime'] %}
+{% set actors = film_info['Actors'] %}
+{% set plot = film_info['Plot'] %}
+{% set language = film_info['Language'] %}
+{% set awards = film_info['Awards'] %}
+<div id="film-page">
+
+    <img id="poster" src="{{ poster }}" alt="{{ film_name }}">
+
+    <div id="primary-details">
+        <div class="film-detail" id="title"><span>Title:</span>{{ title }}</div>
+        <div class="film-detail" id="rated"><span>Rated:</span>  {{ rated }}</div>
+        <div class="film-detail" id="released"><span>Released Date:</span>  {{ released }}</div>
+        <div class="film-detail" id="runtime"><span>Runtime:</span>  {{ runtime }}</div>
+        <div class="film-detail" id="imdb-rating"><span>imdb Rating:</span>  {{ imdb_rating }}</div>
+        <div class="film-detail" id="imdb-votes"><span>imdb Votes:</span>  {{ imdb_votes }}</div>
+    </div>
+
+    <div id="details">
+        <div class="film-detail" id="plot"><span>Plot:</span><br>{{ plot }}</div>
+        <div class="film-detail" id="actors"><span>Actors:</span><br>{{ actors }}</div>
+        <div class="film-detail" id="language"><span>Language:</span><br>  {{ language }}</div>
+        <div class="film-detail" id="awards"><span>Awards:</span><br>  {{ awards }}</div>
+    </div>
+</div>
+{% endblock %}
