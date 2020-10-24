@@ -53,7 +53,7 @@
     #primary-details {
         grid-column: 1 / 13;
         grid-row: 2;
-        font-size: 1.4;
+        font-size: 1.4rem;
         margin-bottom: 2rem;
     }
 }

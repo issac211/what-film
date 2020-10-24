@@ -1,7 +1,11 @@
-from flask import Flask, request, render_template, redirect, url_for, session
-import requests
-import os
 import math
+import os
+
+from flask import Flask
+from flask import render_template
+from flask import request
+from flask import session
+import requests
 
 
 class Film:
@@ -39,7 +43,6 @@ app.secret_key = os.getenv('MY_API_KEY')
 my_omdb_key = os.getenv('MY_API_KEY')
 
 
-
 def from_session(title_search):
     pages_num = session["pages_num"]
     search_page = session["search_page"]
@@ -53,8 +56,6 @@ def from_session(title_search):
         current_page=int(current_page),
         pages_num=pages_num,
     )
-
-
 
 
 @app.route("/")
@@ -110,6 +111,5 @@ def search():
         return render_template("index.html", not_found=True)
 
 
-
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
