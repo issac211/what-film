@@ -1,35 +1,30 @@
 {% extends "base.html" %}
 {% block content %}
 
-{% set poster = film_info['Poster'] %}
-{% set rated = film_info['Rated'] %}
-{% set title = film_info['Title'] %}
-{% set imdb_rating = film_info['imdbRating'] %}
-{% set imdb_votes = film_info['imdbVotes'] %}
-{% set released = film_info['Released'] %}
-{% set runtime = film_info['Runtime'] %}
-{% set actors = film_info['Actors'] %}
-{% set plot = film_info['Plot'] %}
-{% set language = film_info['Language'] %}
-{% set awards = film_info['Awards'] %}
+{% if not film.resp %}
+    <p class="not-found">There is no further details on the film</p>
+{% endif %}
 <div id="film-page">
-
-    <img id="poster" src="{{ poster }}" alt="{{ film_name }}">
-
+    {% if film.poster == 'N/A' or film.poster == None %}
+        <img id="poster" src="{{ url_for('static', filename='images/no-image.jpg') }}" alt="{{ film.film_name }}">
+    {% else %}
+        <img id="poster" src="{{ film.poster }}" alt="{{ film.film_name }}">
+    {% endif %}
     <div id="primary-details">
-        <div class="film-detail" id="title"><span>Title:</span>{{ title }}</div>
-        <div class="film-detail" id="rated"><span>Rated:</span>  {{ rated }}</div>
-        <div class="film-detail" id="released"><span>Released Date:</span>  {{ released }}</div>
-        <div class="film-detail" id="runtime"><span>Runtime:</span>  {{ runtime }}</div>
-        <div class="film-detail" id="imdb-rating"><span>imdb Rating:</span>  {{ imdb_rating }}</div>
-        <div class="film-detail" id="imdb-votes"><span>imdb Votes:</span>  {{ imdb_votes }}</div>
+        <div class="film-detail" id="title"><span>Title:</span>{{ film.title }}</div>
+        <div class="film-detail" id="rated"><span>Rated:</span>  {{ film.rated }}</div>
+        <div class="film-detail" id="released"><span>Released Date:</span>  {{ film.released }}</div>
+        <div class="film-detail" id="runtime"><span>Runtime:</span>  {{ film.runtime }}</div>
+        <div class="film-detail" id="imdb-rating"><span>imdb Rating:</span>  {{ film.imdb_rating }}</div>
+        <div class="film-detail" id="imdb-votes"><span>imdb Votes:</span>  {{ film.imdb_votes }}</div>
     </div>
 
     <div id="details">
-        <div class="film-detail" id="plot"><span>Plot:</span><br>{{ plot }}</div>
-        <div class="film-detail" id="actors"><span>Actors:</span><br>{{ actors }}</div>
-        <div class="film-detail" id="language"><span>Language:</span><br>  {{ language }}</div>
-        <div class="film-detail" id="awards"><span>Awards:</span><br>  {{ awards }}</div>
+        <div class="film-detail" id="plot"><span>Plot:</span><br>{{ film.plot }}</div>
+        <div class="film-detail" id="actors"><span>Actors:</span><br>{{ film.actors }}</div>
+        <div class="film-detail" id="language"><span>Language:</span><br>  {{ film.language }}</div>
+        <div class="film-detail" id="awards"><span>Awards:</span><br>  {{ film.awards }}</div>
     </div>
 </div>
+
 {% endblock %}

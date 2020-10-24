@@ -1,0 +1,54 @@
+
+#nav-box {
+    margin: 3rem;
+}
+
+form.page-link {
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    width: 90px;
+    text-align: center;
+}
+
+form.page-link input[type="text"] {
+    width: 60px;
+}
+
+#active-form {
+    width: 70px;
+}
+
+#active-form input[type="text"] {
+    width: 70px;
+    text-align: center;
+}
+
+
+
+form.page-link button {
+    margin-right: 0px;
+    margin-left: 0px;
+}
+
+form.not-active-button {
+    width: 60px;
+}
+
+form.not-active-form input[type="text"]{
+    text-align: center;
+}
+
+@media screen and (max-width: 700px) {
+    #nav-box {
+        margin-left: 1rem;
+    }
+    
+}
+
+@media screen and (max-width: 500px) {
+    #nav-box {
+        margin-left: 0rem;
+    }
+}

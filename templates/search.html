@@ -8,11 +8,14 @@
         {% set film_year = d['Year'] %}
         {% set film_img = d['Poster'] %}
         {% set film_type = d['Type'] %}
-        
         <div class="result" data-result-id="{{ resp_id }}">
             <a href="/{{ film_name }}" class="btn btn-light btn-block">
                 <div class="film">
-                    <div class="img-box"><img src="{{ film_img }}" alt="{{ film_name }}"></div>
+                    {% if film_img == 'N/A' %}
+                        <div class="img-box"><img src="{{ url_for('static', filename='images/no-image.jpg') }}" alt="{{ film_name }}"></div>
+                    {% else %}
+                        <div class="img-box"><img src="{{ film_img }}" alt="{{ film_name }}"></div>
+                    {% endif %}
                     <div class="film-details">
                         <div class="film-name film-detail"><span>Title:</span>  {{ film_name }}</div>
                         <div class="film-type film-detail"><span>Type:</span>  {{ film_type }}</div>
@@ -21,9 +24,158 @@
                 </div>
             </a>
         </div>
-        
-
     {% endfor %}
-
 </div>
+
+{% if not pages_num == 1 %}
+<div id="nav-box">
+    <nav aria-label="...">
+        <ul class="pagination" id="nav-list">
+
+            {% if current_page == 1 %}
+                {% set page_text = (pages_num / 2)|int %}
+                {% set prev = 1 %}
+                {% set next = 2 %}
+                <li class="page-item disabled">
+                    <span class="page-link">Previous</span>
+                </li>
+
+                <li class="page-item active">
+                    <span class="page-link">1</span>
+                    <span class="sr-only">(current)</span>
+                </li>
+
+
+                <li class="page-item disabled">
+                    <span class="page-link">...</span>
+                </li>
+
+                <li class="page-item" aria-current="page">
+                    <form action="{{ url_for('search') }}" method="GET" class="page-link not-active-form">
+                        <input type="hidden" name="film-title" value="{{ search_val }}">
+                        <input id="nav_text" name="page" type="text" value="{{ page_text }}">
+                    </form>
+                </li>
+    
+                <li class="page-item disabled">
+                    <span class="page-link">...</span>
+                </li>
+
+                <li class="page-item">
+                    <form action="{{ url_for('search') }}" method="GET" class="page-link not-active-button">
+                        <input type="hidden" name="film-title" value="{{ search_val }}">
+                        <input type="hidden" name="page" value="{{ pages_num }}">
+                        <button type="submit">{{ pages_num }}</button>
+                    </form>
+                </li>
+
+                <li class="page-item">
+                    <form action="{{ url_for('search') }}" method="GET" class="page-link">
+                        <input type="hidden" name="film-title" value="{{ search_val }}">
+                        <input type="hidden" name="page" value="{{ next }}">
+                        <button type="submit">Next</button>
+                    </form>
+                </li>
+
+            {% elif current_page == pages_num %}
+                {% set page_text = (pages_num / 2)|int %}
+                {% set prev = pages_num - 1 %}
+                {% set next = pages_num %}
+                <li class="page-item">
+                    <form action="{{ url_for('search') }}" method="GET" class="page-link">
+                        <input type="hidden" name="film-title" value="{{ search_val }}">
+                        <input type="hidden" name="page" value="{{ prev }}">
+                        <button type="submit">Previous</button>
+                    </form>
+                </li>
+
+                <li class="page-item">
+                    <form action="{{ url_for('search') }}" method="GET" class="page-link not-active-button">
+                        <input type="hidden" name="film-title" value="{{ search_val }}">
+                        <input type="hidden" name="page" value="1">
+                        <button type="submit">1</button>
+                    </form>      
+                </li>
+
+                <li class="page-item disabled">
+                    <span class="page-link">...</span>
+                </li>
+
+                <li class="page-item" aria-current="page">
+                    <form action="{{ url_for('search') }}" method="GET" class="page-link not-active-form">
+                        <input type="hidden" name="film-title" value="{{ search_val }}">
+                        <input id="nav_text" name="page" type="text" value="{{ page_text }}">
+                    </form>
+                </li>
+
+                <li class="page-item disabled">
+                    <span class="page-link">...</span>
+                </li>
+
+                <li class="page-item active">
+                    <span class="page-link">{{ pages_num }}</span>
+                    <span class="sr-only">(current)</span>
+                </li>
+
+                <li class="page-item disabled">
+                    <span class="page-link">Next</span>
+                </li>
+                
+            {% else %}
+                {% set page_text = current_page %}
+                {% set prev = current_page - 1 %}
+                {% set next = current_page + 1 %}
+                <li class="page-item">
+                    <form action="{{ url_for('search') }}" method="GET" class="page-link">
+                        <input type="hidden" name="film-title" value="{{ search_val }}">
+                        <input type="hidden" name="page" value="{{ prev }}">
+                        <button type="submit">Previous</button>
+                    </form>
+                </li>
+
+                <li class="page-item">
+                    <form action="{{ url_for('search') }}" method="GET" class="page-link">
+                        <input type="hidden" name="film-title" value="{{ search_val }}">
+                        <input type="hidden" name="page" value="1">
+                        <button type="submit">1</button>
+                    </form>      
+                </li>
+
+
+                <li class="page-item disabled">
+                    <span class="page-link">...</span>
+                </li>
+
+                <li class="page-item active" aria-current="page">
+                    <form action="{{ url_for('search') }}" method="GET" id="active-form">
+                        <input type="hidden" name="film-title" value="{{ search_val }}">
+                        <input class="page-link" id="nav_text" name="page" type="text" value="{{ page_text }}">
+                    </form>
+                </li>
+
+                <li class="page-item disabled">
+                    <span class="page-link">...</span>
+                </li>
+
+                <li class="page-item">
+                    <form action="{{ url_for('search') }}" method="GET" class="page-link">
+                        <input type="hidden" name="film-title" value="{{ search_val }}">
+                        <input type="hidden" name="page" value="{{ pages_num }}">
+                        <button type="submit">{{ pages_num }}</button>
+                    </form>
+                </li>
+
+                <li class="page-item">
+                    <form action="{{ url_for('search') }}" method="GET" class="page-link">
+                        <input type="hidden" name="film-title" value="{{ search_val }}">
+                        <input type="hidden" name="page" value="{{ next }}">
+                        <button type="submit">Next</button>
+                    </form>
+                </li>
+            {% endif %}
+
+        </ul>
+    </nav>
+</div>
+{% endif %}
 {% endblock %}
