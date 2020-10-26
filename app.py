@@ -47,6 +47,7 @@ def from_session(title_search):
     pages_num = session["pages_num"]
     search_page = session["search_page"]
     current_page = session["current_page"]
+    pre_title_search = session["page_search_val"]
 
     return render_template(
         "search.html", 
@@ -55,6 +56,7 @@ def from_session(title_search):
         search_val=title_search,
         current_page=int(current_page),
         pages_num=pages_num,
+        page_search_val = pre_title_search,
     )
 
 
@@ -96,6 +98,7 @@ def search():
         session["pages_num"] = pages_num
         session["search_page"] = search_page
         session["current_page"] = page
+        session["page_search_val"] = title_search
 
         return render_template("search.html", 
         not_found=False, 
@@ -103,6 +106,7 @@ def search():
         search_val=title_search,
         current_page=int(page),
         pages_num=pages_num,
+        page_search_val = title_search,
     )
 
     elif ("search_page" in session) and ("pages_num" in session) and ("current_page" in session):

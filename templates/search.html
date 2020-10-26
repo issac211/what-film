@@ -52,7 +52,7 @@
 
                 <li class="page-item" aria-current="page">
                     <form action="{{ url_for('search') }}" method="GET" class="page-link not-active-form">
-                        <input type="hidden" name="film-title" value="{{ search_val }}">
+                        <input type="hidden" name="film-title" value="{{ page_search_val }}">
                         <input id="nav_text" name="page" type="text" value="{{ page_text }}">
                     </form>
                 </li>
@@ -63,7 +63,7 @@
 
                 <li class="page-item">
                     <form action="{{ url_for('search') }}" method="GET" class="page-link not-active-button">
-                        <input type="hidden" name="film-title" value="{{ search_val }}">
+                        <input type="hidden" name="film-title" value="{{ page_search_val }}">
                         <input type="hidden" name="page" value="{{ pages_num }}">
                         <button type="submit">{{ pages_num }}</button>
                     </form>
@@ -71,7 +71,7 @@
 
                 <li class="page-item">
                     <form action="{{ url_for('search') }}" method="GET" class="page-link">
-                        <input type="hidden" name="film-title" value="{{ search_val }}">
+                        <input type="hidden" name="film-title" value="{{ page_search_val }}">
                         <input type="hidden" name="page" value="{{ next }}">
                         <button type="submit">Next</button>
                     </form>
@@ -83,7 +83,7 @@
                 {% set next = pages_num %}
                 <li class="page-item">
                     <form action="{{ url_for('search') }}" method="GET" class="page-link">
-                        <input type="hidden" name="film-title" value="{{ search_val }}">
+                        <input type="hidden" name="film-title" value="{{ page_search_val }}">
                         <input type="hidden" name="page" value="{{ prev }}">
                         <button type="submit">Previous</button>
                     </form>
@@ -91,7 +91,7 @@
 
                 <li class="page-item">
                     <form action="{{ url_for('search') }}" method="GET" class="page-link not-active-button">
-                        <input type="hidden" name="film-title" value="{{ search_val }}">
+                        <input type="hidden" name="film-title" value="{{ page_search_val }}">
                         <input type="hidden" name="page" value="1">
                         <button type="submit">1</button>
                     </form>      
@@ -103,7 +103,7 @@
 
                 <li class="page-item" aria-current="page">
                     <form action="{{ url_for('search') }}" method="GET" class="page-link not-active-form">
-                        <input type="hidden" name="film-title" value="{{ search_val }}">
+                        <input type="hidden" name="film-title" value="{{ page_search_val }}">
                         <input id="nav_text" name="page" type="text" value="{{ page_text }}">
                     </form>
                 </li>
@@ -127,7 +127,7 @@
                 {% set next = current_page + 1 %}
                 <li class="page-item">
                     <form action="{{ url_for('search') }}" method="GET" class="page-link">
-                        <input type="hidden" name="film-title" value="{{ search_val }}">
+                        <input type="hidden" name="film-title" value="{{ page_search_val }}">
                         <input type="hidden" name="page" value="{{ prev }}">
                         <button type="submit">Previous</button>
                     </form>
@@ -135,7 +135,7 @@
 
                 <li class="page-item">
                     <form action="{{ url_for('search') }}" method="GET" class="page-link">
-                        <input type="hidden" name="film-title" value="{{ search_val }}">
+                        <input type="hidden" name="film-title" value="{{ page_search_val }}">
                         <input type="hidden" name="page" value="1">
                         <button type="submit">1</button>
                     </form>      
@@ -148,7 +148,7 @@
 
                 <li class="page-item active" aria-current="page">
                     <form action="{{ url_for('search') }}" method="GET" id="active-form">
-                        <input type="hidden" name="film-title" value="{{ search_val }}">
+                        <input type="hidden" name="film-title" value="{{ page_search_val }}">
                         <input class="page-link" id="nav_text" name="page" type="text" value="{{ page_text }}">
                     </form>
                 </li>
@@ -159,7 +159,7 @@
 
                 <li class="page-item">
                     <form action="{{ url_for('search') }}" method="GET" class="page-link">
-                        <input type="hidden" name="film-title" value="{{ search_val }}">
+                        <input type="hidden" name="film-title" value="{{ page_search_val }}">
                         <input type="hidden" name="page" value="{{ pages_num }}">
                         <button type="submit">{{ pages_num }}</button>
                     </form>
@@ -167,7 +167,7 @@
 
                 <li class="page-item">
                     <form action="{{ url_for('search') }}" method="GET" class="page-link">
-                        <input type="hidden" name="film-title" value="{{ search_val }}">
+                        <input type="hidden" name="film-title" value="{{ page_search_val }}">
                         <input type="hidden" name="page" value="{{ next }}">
                         <button type="submit">Next</button>
                     </form>
