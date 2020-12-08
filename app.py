@@ -1,12 +1,11 @@
-from inspect import Parameter
 import math
 import os
 
-from flask import Flask
 from flask import flash
+from flask import Flask
+from flask import redirect
 from flask import render_template
 from flask import request
-from flask import redirect
 from flask import session
 from flask.helpers import url_for
 from flask_sqlalchemy import SQLAlchemy
@@ -18,9 +17,9 @@ app = Flask(__name__)
 app.secret_key = os.getenv('MY_API_KEY')
 my_omdb_key = os.getenv('MY_API_KEY')
 
-database_url = os.getenv('DATABASE_URL')
+postgre_database_url = os.getenv('DATABASE_URL')
 
-app.config["SQLALCHEMY_DATABASE_URI"] = database_url
+app.config["SQLALCHEMY_DATABASE_URI"] = postgre_database_url
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
 
@@ -147,9 +146,11 @@ def get_logged_user():
             return found_user
     return False
 
+
 def get_movie_from_db(movie_title):
     movie = Movies.query.filter_by(title=movie_title).first()
     return movie
+
 
 def add_movie(film_data):
     movie_title = film_data[0]
@@ -160,6 +161,7 @@ def add_movie(film_data):
     db.session.add(movie)
     db.session.commit()
     return True
+
 
 def add_movie_to_user_fav(user, film_data):
     added = add_movie(film_data)
@@ -172,6 +174,7 @@ def add_movie_to_user_fav(user, film_data):
         db.session.commit()
         return True
     return False
+
 
 def remove_from_fav(user, film_data):
     movie_title = film_data[0]
@@ -203,7 +206,7 @@ def from_session(title_search, logged_user):
         search_val=title_search,
         current_page=int(current_page),
         pages_num=pages_num,
-        page_search_val = pre_title_search,
+        page_search_val=pre_title_search,
         logged_user=logged_user,
     )
 
@@ -234,6 +237,7 @@ def check_if_favor(film, logged_user):
             else:
                 is_favor = False
     return is_favor
+
 
 def get_users_fav_num(film):
     fav_num = 0
@@ -270,6 +274,7 @@ def home():
     session.pop('results_num', None)
     session.pop('search_page', None)
     return render_template("index.j2", logged_user=logged_user, active_page="home")
+
 
 @app.route("/<film_name>/", methods=["POST", "GET"])
 def film_details(film_name):
@@ -377,7 +382,7 @@ def search():
         search_val=title_search,
         current_page=int(page),
         pages_num=pages_num,
-        page_search_val = title_search,
+        page_search_val=title_search,
         logged_user=logged_user,
     )
 
@@ -387,6 +392,7 @@ def search():
     else:
         flash("The film name doesn't exist in the system", 'info')
         return redirect(url_for("home"))
+
 
 @app.route("/login/", methods=["POST", "GET"])
 def login():
@@ -412,6 +418,7 @@ def login():
         flash("Incorrect username or password", 'log-warning')
     return render_template("login.j2", logged_user=logged_user)
 
+
 @app.route("/log-out/", methods=["POST", "GET"])
 def log_out():
     logged_user = get_logged_user()
@@ -428,7 +435,8 @@ def log_out():
     else:
         return redirect(url_for("login"))
 
-    return render_template("log-out.j2", logged_user=logged_user, active_page="log_out",)
+    return render_template("log-out.j2", logged_user=logged_user, active_page="log_out")
+
 
 @app.route("/delete-user/", methods=["POST", "GET"])
 def delete_user():
@@ -444,7 +452,7 @@ def delete_user():
                 db.session.commit()
                 return redirect(url_for("home"))
             else:
-                flash(f"Incorrect password", 'log-warning')
+                flash("Incorrect password", 'log-warning')
         return render_template("delete-user.j2", logged_user=logged_user)
     else:
         return redirect(url_for("home"))
@@ -463,14 +471,13 @@ def change_password():
             if c_password == logged_user.password:
                 changed = change_p(logged_user, n_password)
                 if changed:
-                    flash(f"Password changed", 'log-message')
+                    flash("Password changed", 'log-message')
                     return redirect(url_for("home"))
             else:
-                flash(f"Incorrect password", 'log-warning')
+                flash("Incorrect password", 'log-warning')
         return render_template("change-p.j2", logged_user=logged_user)
     else:
         return redirect(url_for("home"))
-
 
 
 @app.route("/register/", methods=["POST", "GET"])
@@ -494,6 +501,7 @@ def register():
             flash("user name already exists", 'log-warning')
             return render_template("register.j2")
     return render_template("register.j2", logged_user=logged_user)
+
 
 @app.route("/favorites/")
 def my_favorites():
@@ -526,6 +534,7 @@ def my_favorites():
             active_page="favorites",
         )
     return redirect(url_for("home"))
+
 
 @app.route("/top_movies/")
 def top_movies():
