@@ -8,6 +8,8 @@
         <link rel="stylesheet" href="{{ url_for('static', filename='styles/my.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='styles/film-page-style.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='styles/nav-style.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles/log-style.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles/likes-style.css') }}">
         <!--https://github.com/joshbuchea/HEAD-->
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -15,34 +17,101 @@
     </head>
 
     <body>
-        <div id="search">
-            <a href="{{ url_for('home') }}" id="logo-link">
-                <img id="logo" src="{{ url_for('static', filename='images/what-film.svg') }}" alt="WhatFilm">
-            </a>
-            <form id="search-form" action="{{ url_for('search') }}" method="GET">
-                <div class="form-group"></div>
-                
-                    <label for="film-title">Search for a film by name</label>
 
-                    <input class="form-control" id="film-title" name="film-title" 
-                    type="text" value="{{ search_val }}" placeholder="Search for a film by name" 
-                    tabindex="0" autofocus>
-            
-                    <input type="hidden" name="page" value="1">
+        {% set home_active = "" %}
+        {% set favor_active = "" %}
+        {% set top_active = "" %}
+        {% set logout_active = "" %}
 
-                    <button type="submit" class="btn btn-outline-success">
-                        <img src="{{ url_for('static', filename='images/search-button.svg') }}" alt="Search">
-                    </button>
 
-                </div>
-            </form>
-        </div>
-        {% if not_found %}
-            <p class="not-found">The film name doesn't exist in the system</p>
+        {% if active_page == "home" %}
+        {% set home_active = "active" %}
+
+        {% elif active_page == "favorites" %}
+        {% set favor_active = "active" %}
+
+        {% elif active_page == "top_movies" %}
+        {% set top_active = "active" %}
+
+        {% elif active_page == "log_out" %}
+        {% set logout_active = "active" %}
+
+        {% elif active_page == "change_password" %}
+        {% set change_p_active = "active" %}
+
         {% endif %}
+
+        {% if logged_user %}
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <a class="navbar-brand" href="{{ url_for("home") }}">hii {{ logged_user.name }} :-> </a>
+            
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+                <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+
+                    <li class="nav-item {{home_active}}">
+                        <a class="nav-link" href="{{ url_for("home") }}">Home</a>
+                    </li>
+
+                    <li class="nav-item {{favor_active}}">
+                        <a class="nav-link" href="{{ url_for("my_favorites") }}">Favorites</a>
+                    </li>
+
+                    <li class="nav-item {{top_active}}">
+                        <a class="nav-link" href="{{ url_for("top_movies") }}">User's top 5 movies</a>
+                    </li>
+
+                    <li class="nav-item {{logout_active}}">
+                        <a class="nav-link" href="{{ url_for('login') }}">Log Out</a>
+                    </li>
+
+                    <li class="nav-item {{change_p_active}}">
+                        <a class="nav-link" href="{{ url_for('change_password') }}">Change password</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        {% else %}
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <a class="navbar-brand" href="{{ url_for("home") }}">to Home</a>
+
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+                <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+
+                    <li class="nav-item">
+                        <a class="btn btn-outline-success" href="{{ url_for('login') }}" type="button">login</a>
+                    </li>
+
+                    <li class="nav-item active">
+                        <a class="btn btn-outline-secondary" href="{{ url_for('register') }}" type="button">register</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        {% endif %}
+
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for cat, msg in messages %}
+                    {% if "log" in cat %}
+                        <p class="flash-msg {{ cat }}">{{ msg }}</p>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+
         {% block content %}
         {% endblock %}
 
+        
         <footer>
             <H2>Created by:</H2>
             <ul>
@@ -61,5 +130,8 @@
             </dl>
             <p></p>
         </footer>
+
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
     </body>
 </html>

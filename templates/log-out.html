@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="login-form">
+    <h2>Log Out:</h2>
+    <form action="#" method="post">
+        <p><input type="hidden" name="log-out" value="1"></p>
+        <p><input type="hidden" name="delete-user" value="0"></p>
+        <p><input type="submit" class="btn btn-danger btn-lg btn-block" value="log-out"></p>
+    </form>
+</div>
+
+<div class="login-form">
+    <h2>Delete User:</h2>
+    <form action="#" method="post">
+        <p><input type="hidden" name="log-out" value="0"></p>
+        <p><input type="hidden" name="delete-user" value="1"></p>
+        <p><input type="submit" class="btn btn-dark btn-lg btn-block" value="delete-user"></p>
+    </form>
+</div>
+
+
+
+
+
+
+{% endblock %}

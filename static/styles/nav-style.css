@@ -33,7 +33,7 @@ form.page-link button {
 }
 
 form.not-active-button {
-    width: 60px;
+    width: 50px;
 }
 
 form.not-active-form input[type="text"]{
@@ -44,11 +44,34 @@ form.not-active-form input[type="text"]{
     #nav-box {
         margin-left: 1rem;
     }
+
+    form.page-link {
+        width: 50px;
+    }
+    
+    form.page-link input[type="text"] {
+        width: 30px;
+    }
+    
+    #active-form {
+        width: 50px;
+    }
+    
+    #active-form input[type="text"] {
+        width: 50px;
+    }
+    
+    
+    form.not-active-button {
+        width: 40px;
+    }
     
 }
 
 @media screen and (max-width: 500px) {
     #nav-box {
         margin-left: 0rem;
+        font-size: 12px;
     }
+
 }

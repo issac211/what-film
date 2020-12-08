@@ -1,62 +1,31 @@
-{% extends "base2.html" %}
-{% block content2 %}
+{% extends "base.html" %}
+{% block content %}
+
+
+<h1>Favorite movies</h1>
+
 <div id="results">
-    <h1>Movies Found</h1>
-    {% set resp_id = 0 %}
-    {% for resp_id, d in page_info %}
-        {% set film_name = d['Title'] %}
-        {% set film_year = d['Year'] %}
-        {% set film_img = d['Poster'] %}
-        {% set film_type = d['Type'] %}
-        {% set is_favor = d['is_favor'] %}
-        {% set fav_num = d['fav_num'] %}
-        <div class="result" data-result-id="{{ resp_id }}">
-            <a href="/{{ film_name }}" class="btn btn-light btn-block">
+    
+    {% for movie in favorite_movies %}
+        <div class="result">
+            <a href="/{{ movie.title }}" class="btn btn-light btn-block">
                 <div class="film">
-                    {% if film_img == 'N/A' %}
-                        <div class="img-box"><img src="{{ url_for('static', filename='images/no-image.jpg') }}" alt="{{ film_name }}"></div>
+                    {% if movie.poster == 'N/A' %}
+                        <div class="img-box"><img src="{{ url_for('static', filename='images/no-image.jpg') }}" alt="{{ movie.title }}"></div>
                     {% else %}
-                        <div class="img-box"><img src="{{ film_img }}" alt="{{ film_name }}"></div>
+                        <div class="img-box"><img src="{{ movie.poster }}" alt="{{ movie.title }}"></div>
                     {% endif %}
                     <div class="film-details">
-                        <div class="film-name film-detail"><span>Title:</span>  {{ film_name }}</div>
-                        <div class="film-type film-detail"><span>Type:</span>  {{ film_type }}</div>
-                        <div class="film-year film-detail"><span>Year:</span>  {{ film_year }}</div>
+                        <div class="film-name film-detail"><span>Title:</span>  {{ movie.title }}</div>
+                        <div class="film-type film-detail"><span>Type:</span>  {{ movie.type }}</div>
+                        <div class="film-year film-detail"><span>Year:</span>  {{ movie.year }}</div>
                     </div>
                 </div>
             </a>
-
-            {% if is_favor == None %}
-
-            {% elif is_favor %}
-
-            <form action="#" method="post" class="likes-button">
-                <p><input type="hidden" name="fav_title" value="{{ film_name }}"></p>
-                <p><input type="hidden" name="fav_poster" value="{{ film_img }}"></p>
-                <p><input type="hidden" name="fav_type" value="{{ film_type }}"></p>
-                <p><input type="hidden" name="fav_year" value="{{ film_year }}"></p>
-                <p><input type="hidden" name="add_rem" value="rem"></p>
-
-                <p class="button-on"><input type="submit" value="Remove from favorites" class="btn btn-dark btn-lg btn-block"></p>
-                <p class="likes-num"><button type="button" class="btn btn-primary btn-lg btn-block" disabled>likes: {{ fav_num }}</button></p>
-            </form>
-            
-
-            {% else %}
-            <form action="#" method="post" class="likes-button">
-                <p><input type="hidden" name="fav_title" value="{{ film_name }}"></p>
-                <p><input type="hidden" name="fav_poster" value="{{ film_img }}"></p>
-                <p><input type="hidden" name="fav_type" value="{{ film_type }}"></p>
-                <p><input type="hidden" name="fav_year" value="{{ film_year }}"></p>
-                <p><input type="hidden" name="add_rem" value="add"></p>
-
-                <p class="button-off"><input type="submit" value="Add to favorites" class="btn btn-success btn-lg btn-block"></p>
-            </form>
-            {% endif %}
-            
         </div>
     {% endfor %}
 </div>
+
 
 {% if pages_num > 1 %}
 <div id="nav-box">
@@ -82,8 +51,7 @@
                 </li>
 
                 <li class="page-item" aria-current="page">
-                    <form action="{{ url_for('search') }}" method="GET" class="page-link not-active-form">
-                        <input type="hidden" name="film-title" value="{{ page_search_val }}">
+                    <form action="{{ url_for('my_favorites') }}" method="GET" class="page-link not-active-form">
                         <input id="nav_text" name="page" type="text" value="{{ page_text }}">
                     </form>
                 </li>
@@ -93,16 +61,14 @@
                 </li>
 
                 <li class="page-item">
-                    <form action="{{ url_for('search') }}" method="GET" class="page-link not-active-button">
-                        <input type="hidden" name="film-title" value="{{ page_search_val }}">
+                    <form action="{{ url_for('my_favorites') }}" method="GET" class="page-link not-active-button">
                         <input type="hidden" name="page" value="{{ pages_num }}">
                         <button type="submit">{{ pages_num }}</button>
                     </form>
                 </li>
 
                 <li class="page-item">
-                    <form action="{{ url_for('search') }}" method="GET" class="page-link">
-                        <input type="hidden" name="film-title" value="{{ page_search_val }}">
+                    <form action="{{ url_for('my_favorites') }}" method="GET" class="page-link">
                         <input type="hidden" name="page" value="{{ next }}">
                         <button type="submit">Next</button>
                     </form>
@@ -113,16 +79,14 @@
                 {% set prev = pages_num - 1 %}
                 {% set next = pages_num %}
                 <li class="page-item">
-                    <form action="{{ url_for('search') }}" method="GET" class="page-link">
-                        <input type="hidden" name="film-title" value="{{ page_search_val }}">
+                    <form action="{{ url_for('my_favorites') }}" method="GET" class="page-link">
                         <input type="hidden" name="page" value="{{ prev }}">
                         <button type="submit">Previous</button>
                     </form>
                 </li>
 
                 <li class="page-item">
-                    <form action="{{ url_for('search') }}" method="GET" class="page-link not-active-button">
-                        <input type="hidden" name="film-title" value="{{ page_search_val }}">
+                    <form action="{{ url_for('my_favorites') }}" method="GET" class="page-link not-active-button">
                         <input type="hidden" name="page" value="1">
                         <button type="submit">1</button>
                     </form>      
@@ -133,8 +97,7 @@
                 </li>
 
                 <li class="page-item" aria-current="page">
-                    <form action="{{ url_for('search') }}" method="GET" class="page-link not-active-form">
-                        <input type="hidden" name="film-title" value="{{ page_search_val }}">
+                    <form action="{{ url_for('my_favorites') }}" method="GET" class="page-link not-active-form">
                         <input id="nav_text" name="page" type="text" value="{{ page_text }}">
                     </form>
                 </li>
@@ -157,16 +120,14 @@
                 {% set prev = current_page - 1 %}
                 {% set next = current_page + 1 %}
                 <li class="page-item">
-                    <form action="{{ url_for('search') }}" method="GET" class="page-link">
-                        <input type="hidden" name="film-title" value="{{ page_search_val }}">
+                    <form action="{{ url_for('my_favorites') }}" method="GET" class="page-link">
                         <input type="hidden" name="page" value="{{ prev }}">
                         <button type="submit">Previous</button>
                     </form>
                 </li>
 
                 <li class="page-item">
-                    <form action="{{ url_for('search') }}" method="GET" class="page-link">
-                        <input type="hidden" name="film-title" value="{{ page_search_val }}">
+                    <form action="{{ url_for('my_favorites') }}" method="GET" class="page-link">
                         <input type="hidden" name="page" value="1">
                         <button type="submit">1</button>
                     </form>      
@@ -178,8 +139,7 @@
                 </li>
 
                 <li class="page-item active" aria-current="page">
-                    <form action="{{ url_for('search') }}" method="GET" id="active-form">
-                        <input type="hidden" name="film-title" value="{{ page_search_val }}">
+                    <form action="{{ url_for('my_favorites') }}" method="GET" id="active-form">
                         <input class="page-link" id="nav_text" name="page" type="text" value="{{ page_text }}">
                     </form>
                 </li>
@@ -189,16 +149,14 @@
                 </li>
 
                 <li class="page-item">
-                    <form action="{{ url_for('search') }}" method="GET" class="page-link">
-                        <input type="hidden" name="film-title" value="{{ page_search_val }}">
+                    <form action="{{ url_for('my_favorites') }}" method="GET" class="page-link">
                         <input type="hidden" name="page" value="{{ pages_num }}">
                         <button type="submit">{{ pages_num }}</button>
                     </form>
                 </li>
 
                 <li class="page-item">
-                    <form action="{{ url_for('search') }}" method="GET" class="page-link">
-                        <input type="hidden" name="film-title" value="{{ page_search_val }}">
+                    <form action="{{ url_for('my_favorites') }}" method="GET" class="page-link">
                         <input type="hidden" name="page" value="{{ next }}">
                         <button type="submit">Next</button>
                     </form>
@@ -209,4 +167,6 @@
     </nav>
 </div>
 {% endif %}
+
+
 {% endblock %}

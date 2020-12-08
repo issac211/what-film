@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+<div id="search">
+    <a href="{{ url_for('home') }}" id="logo-link">
+        <img id="logo" src="{{ url_for('static', filename='images/what-film.svg') }}" alt="WhatFilm">
+    </a>
+    <form id="search-form" action="{{ url_for('search') }}" method="GET">
+        <div class="form-group"></div>
+        
+            <label for="film-title">Search for a film by name</label>
+
+            <input class="form-control" id="film-title" name="film-title" 
+            type="text" value="{{ search_val }}" placeholder="Search for a film by name" 
+            tabindex="0" autofocus>
+    
+            <input type="hidden" name="page" value="1">
+
+            <button type="submit" class="btn btn-outline-success">
+                <img src="{{ url_for('static', filename='images/search-button.svg') }}" alt="Search">
+            </button>
+
+        </div>
+    </form>
+</div>
+
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for cat, msg in messages %}
+            {% if "log" not in cat %}
+            <p class="flash-msg {{ cat }}">{{ msg }}</p>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+{% block content2 %}
+{% endblock %}
+
+{% endblock %}

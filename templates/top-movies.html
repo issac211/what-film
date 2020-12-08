@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1>Top 5 movies</h1>
+
+<div id="results">
+    {% for movie, fav_num in movies_likes %}
+    {% if fav_num > 0 %}
+        <div class="result">
+            <a href="/{{ movie.title }}" class="btn btn-light btn-block">
+                <div class="film">
+                    {% if movie.poster == 'N/A' %}
+                        <div class="img-box"><img src="{{ url_for('static', filename='images/no-image.jpg') }}" alt="{{ movie.title }}"></div>
+                    {% else %}
+                        <div class="img-box"><img src="{{ movie.poster }}" alt="{{ movie.title }}"></div>
+                    {% endif %}
+                    <div class="film-details">
+                        <div class="film-name film-detail"><span>Title:</span>  {{ movie.title }}</div>
+                        <div class="film-type film-detail"><span>Type:</span>  {{ movie.type }}</div>
+                        <div class="film-year film-detail"><span>Year:</span>  {{ movie.year }}</div>
+                    </div>
+                </div>
+            </a>
+            <p class="top-likes-num"><button type="button" class="btn btn-primary btn-lg btn-block" disabled>likes: {{ fav_num }}</button></p>
+        </div>
+    {% endif %}
+    {% endfor %}
+</div>
+
+
+{% endblock %}

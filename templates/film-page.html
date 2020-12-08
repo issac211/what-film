@@ -1,14 +1,11 @@
-{% extends "base.html" %}
-{% block content %}
+{% extends "base2.html" %}
+{% block content2 %}
 
-{% if not film.resp %}
-    <p class="not-found">There is no further details on the film</p>
-{% endif %}
 <div id="film-page">
     {% if film.poster == 'N/A' or film.poster == None %}
-        <img id="poster" src="{{ url_for('static', filename='images/no-image.jpg') }}" alt="{{ film.film_name }}">
+        <img id="poster" src="{{ url_for('static', filename='images/no-image.jpg') }}" alt="no image">
     {% else %}
-        <img id="poster" src="{{ film.poster }}" alt="{{ film.film_name }}">
+        <img id="poster" src="{{ film.poster }}" alt="{{ film.title }}">
     {% endif %}
     <div id="primary-details">
         <div class="film-detail" id="title"><span>Title:</span>{{ film.title }}</div>
@@ -26,5 +23,37 @@
         <div class="film-detail" id="awards"><span>Awards:</span><br>  {{ film.awards }}</div>
     </div>
 </div>
+
+
+{% if is_favor == None %}
+
+
+{% elif is_favor %}
+
+<form action="{{ url_for("film_details", film_name=film.title) }}" method="post" class="likes-button">
+    <p><input type="hidden" name="fav_title" value="{{ film.title }}"></p>
+    <p><input type="hidden" name="fav_poster" value="{{ film.poster }}"></p>
+    <p><input type="hidden" name="fav_type" value="{{ film.type }}"></p>
+    <p><input type="hidden" name="fav_year" value="{{ film.year }}"></p>
+    <p><input type="hidden" name="add_rem" value="rem"></p>
+
+
+    <p class="button-on"><input type="submit" value="Remove from favorites" class="btn btn-dark btn-lg btn-block"></p>
+    <p class="likes-num"><button type="button" class="btn btn-primary btn-lg btn-block" disabled>likes: {{ fav_num }}</button></p>
+
+</form>
+
+
+{% else %}
+<form action="{{ url_for("film_details", film_name=film.title) }}" method="post" class="likes-button">
+    <p><input type="hidden" name="fav_title" value="{{ film.title }}"></p>
+    <p><input type="hidden" name="fav_poster" value="{{ film.poster }}"></p>
+    <p><input type="hidden" name="fav_type" value="{{ film.type }}"></p>
+    <p><input type="hidden" name="fav_year" value="{{ film.year }}"></p>
+    <p><input type="hidden" name="add_rem" value="add"></p>
+
+    <p class="button-off"><input type="submit" value="Add to favorites" class="btn btn-success btn-lg btn-block"></p>
+</form>
+{% endif %}
 
 {% endblock %}
