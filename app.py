@@ -14,11 +14,13 @@ import requests
 
 
 app = Flask(__name__)
+
 app.secret_key = os.getenv('MY_API_KEY')
 my_omdb_key = os.getenv('MY_API_KEY')
-my_postgre_password = os.getenv('POSTGRE_PASSWORD')
-my_postgre_user = os.getenv('POSTGRE_USER')
-app.config["SQLALCHEMY_DATABASE_URI"] = f"postgresql://{my_postgre_user}:{my_postgre_password}@localhost/what-film"
+
+database_url = os.getenv('DATABASE_URL')
+
+app.config["SQLALCHEMY_DATABASE_URI"] = database_url
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
 
