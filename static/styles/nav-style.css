@@ -12,7 +12,7 @@ form.page-link {
     text-align: center;
 }
 
-form.page-link input[type="text"] {
+form.page-link #nav_text {
     width: 60px;
 }
 
@@ -20,7 +20,7 @@ form.page-link input[type="text"] {
     width: 70px;
 }
 
-#active-form input[type="text"] {
+#active-form #nav_text {
     width: 70px;
     text-align: center;
 }
@@ -36,7 +36,7 @@ form.not-active-button {
     width: 50px;
 }
 
-form.not-active-form input[type="text"]{
+form.not-active-form #nav_text{
     text-align: center;
 }
 
@@ -49,7 +49,7 @@ form.not-active-form input[type="text"]{
         width: 50px;
     }
     
-    form.page-link input[type="text"] {
+    form.page-link #nav_text {
         width: 30px;
     }
     
@@ -57,7 +57,7 @@ form.not-active-form input[type="text"]{
         width: 50px;
     }
     
-    #active-form input[type="text"] {
+    #active-form #nav_text {
         width: 50px;
     }
     

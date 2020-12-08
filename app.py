@@ -198,7 +198,7 @@ def from_session(title_search, logged_user):
         d['fav_num'] = fav_num
 
     return render_template(
-        "search.html", 
+        "search.j2", 
         page_info=enumerate(search_page),
         search_val=title_search,
         current_page=int(current_page),
@@ -269,7 +269,7 @@ def home():
     logged_user = get_logged_user()
     session.pop('results_num', None)
     session.pop('search_page', None)
-    return render_template("index.html", logged_user=logged_user, active_page="home")
+    return render_template("index.j2", logged_user=logged_user, active_page="home")
 
 @app.route("/<film_name>/", methods=["POST", "GET"])
 def film_details(film_name):
@@ -307,7 +307,7 @@ def film_details(film_name):
 
     search_val = session["page_search_val"]
     return render_template(
-        "film-page.html",
+        "film-page.j2",
         film=film,
         logged_user=logged_user,
         is_favor=is_favor,
@@ -372,7 +372,7 @@ def search():
             d['is_favor'] = is_favor
             d['fav_num'] = fav_num
 
-        return render_template("search.html", 
+        return render_template("search.j2", 
         page_info=enumerate(search_page), 
         search_val=title_search,
         current_page=int(page),
@@ -400,7 +400,7 @@ def login():
         username = username.strip()
         if not username or not password:
             flash("username and password need to be entered", 'log-warning')
-            return render_template("login.html", logged_user=logged_user)
+            return render_template("login.j2", logged_user=logged_user)
 
         if check_username_password(username, password, from_log=True):
             found_user = Users.query.filter_by(name=username).first()
@@ -410,7 +410,7 @@ def login():
                 flash("Login successfully!!", 'log-message')
                 return redirect(url_for("home"))
         flash("Incorrect username or password", 'log-warning')
-    return render_template("login.html", logged_user=logged_user)
+    return render_template("login.j2", logged_user=logged_user)
 
 @app.route("/log-out/", methods=["POST", "GET"])
 def log_out():
@@ -428,7 +428,7 @@ def log_out():
     else:
         return redirect(url_for("login"))
 
-    return render_template("log-out.html", logged_user=logged_user, active_page="log_out",)
+    return render_template("log-out.j2", logged_user=logged_user, active_page="log_out",)
 
 @app.route("/delete-user/", methods=["POST", "GET"])
 def delete_user():
@@ -445,7 +445,7 @@ def delete_user():
                 return redirect(url_for("home"))
             else:
                 flash(f"Incorrect password", 'log-warning')
-        return render_template("delete-user.html", logged_user=logged_user)
+        return render_template("delete-user.j2", logged_user=logged_user)
     else:
         return redirect(url_for("home"))
 
@@ -467,7 +467,7 @@ def change_password():
                     return redirect(url_for("home"))
             else:
                 flash(f"Incorrect password", 'log-warning')
-        return render_template("change-p.html", logged_user=logged_user)
+        return render_template("change-p.j2", logged_user=logged_user)
     else:
         return redirect(url_for("home"))
 
@@ -477,14 +477,14 @@ def change_password():
 def register():
     logged_user = get_logged_user()
     if logged_user:
-        return render_template("index.html", logged_user=logged_user)
+        return render_template("index.j2", logged_user=logged_user)
     if request.method == "POST":
         username = request.form["username_r"]
         password = request.form["password_r"]
 
         added = add_user(username, password)
         if added is None:
-            return render_template("register.html")
+            return render_template("register.j2")
         elif added:
             flash(f"Welcome {username}!!", 'log-message')
             found_user = Users.query.filter_by(name=username).first()
@@ -492,8 +492,8 @@ def register():
             return redirect(url_for("home"))
         else:
             flash("user name already exists", 'log-warning')
-            return render_template("register.html")
-    return render_template("register.html", logged_user=logged_user)
+            return render_template("register.j2")
+    return render_template("register.j2", logged_user=logged_user)
 
 @app.route("/favorites/")
 def my_favorites():
@@ -510,7 +510,7 @@ def my_favorites():
         if page > 1:
             movie_list = get_page(favorite_movies.all(), page)
             return render_template(
-                "favorites.html",
+                "favorites.j2",
                 logged_user=logged_user,
                 favorite_movies=movie_list,
                 pages_num=pages_num,
@@ -518,7 +518,7 @@ def my_favorites():
                 active_page="favorites",
             )
         return render_template(
-            "favorites.html",
+            "favorites.j2",
             logged_user=logged_user,
             favorite_movies=favorite_movies,
             pages_num=pages_num,
@@ -532,7 +532,7 @@ def top_movies():
     logged_user = get_logged_user()
     movies_likes = get_top_movies(5)
     return render_template(
-        "top-movies.html",
+        "top-movies.j2",
         logged_user=logged_user,
         movies_likes=movies_likes,
         active_page="top_movies",

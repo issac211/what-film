@@ -1,4 +1,4 @@
-{% extends "base2.html" %}
+{% extends "base2.j2" %}
 {% block content2 %}
 <div id="results">
     <h1>Movies Found</h1>
@@ -84,7 +84,7 @@
                 <li class="page-item" aria-current="page">
                     <form action="{{ url_for('search') }}" method="GET" class="page-link not-active-form">
                         <input type="hidden" name="film-title" value="{{ page_search_val }}">
-                        <input id="nav_text" name="page" type="text" value="{{ page_text }}">
+                        <input id="nav_text" name="page" type="number" min="1" max="{{ pages_num }}" value="{{ page_text }}">
                     </form>
                 </li>
     
@@ -135,7 +135,7 @@
                 <li class="page-item" aria-current="page">
                     <form action="{{ url_for('search') }}" method="GET" class="page-link not-active-form">
                         <input type="hidden" name="film-title" value="{{ page_search_val }}">
-                        <input id="nav_text" name="page" type="text" value="{{ page_text }}">
+                        <input id="nav_text" name="page" type="number" min="1" max="{{ pages_num }}" value="{{ page_text }}">
                     </form>
                 </li>
 
@@ -180,7 +180,7 @@
                 <li class="page-item active" aria-current="page">
                     <form action="{{ url_for('search') }}" method="GET" id="active-form">
                         <input type="hidden" name="film-title" value="{{ page_search_val }}">
-                        <input class="page-link" id="nav_text" name="page" type="text" value="{{ page_text }}">
+                        <input class="page-link" id="nav_text" name="page" type="number" min="1" max="{{ pages_num }}" value="{{ page_text }}">
                     </form>
                 </li>
 
