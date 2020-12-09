@@ -35,13 +35,13 @@ class Movies(db.Model):
     title = db.Column(db.String, nullable=False)
     poster = db.Column(db.String)
     year = db.Column(db.String)
-    type = db.Column(db.String)
+    m_type = db.Column(db.String)
     favor = db.relationship('Users', secondary=favorites, backref=db.backref('favor', lazy='dynamic'))
 
-    def __init__(self, title, poster, type, year):
+    def __init__(self, title, poster, m_type, year):
         self.title = title
         self.poster = poster
-        self.type = type
+        self.m_type = m_type
         self.year = year
 
 
