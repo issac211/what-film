@@ -92,7 +92,7 @@ class Film:
 def check_username_password(username, password, from_log=False):
     MAX_SIZE = 12
     MIN_SIZE = 3
-    NOT_ALLOWED = ",:';\/[]()=+*{}"
+    NOT_ALLOWED = ",:'/;[]()=+*{}\\"
     is_ok = True
     if MAX_SIZE < len(username) or len(username) < MIN_SIZE:
         if not from_log:
@@ -310,7 +310,9 @@ def film_details(film_name):
 
     fav_num = get_users_fav_num(film)
 
-    search_val = session["page_search_val"]
+    search_val = ""
+    if "page_search_val" in session:
+        search_val = session["page_search_val"]
     return render_template(
         "film-page.j2",
         film=film,
@@ -536,7 +538,7 @@ def my_favorites():
     return redirect(url_for("home"))
 
 
-@app.route("/top_movies/")
+@app.route("/top-movies/")
 def top_movies():
     logged_user = get_logged_user()
     movies_likes = get_top_movies(5)
