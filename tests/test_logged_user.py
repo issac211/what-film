@@ -1,5 +1,4 @@
 import pytest
-import app
 
 
 def login(login_client, username, password):
@@ -107,11 +106,10 @@ def test_log_top_movies(login_client):
 
 @pytest.mark.logged_user
 def test_change_password(login_client):
-    rv =  change_password(login_client, "111111", "123456")
+    rv = change_password(login_client, "111111", "123456")
     assert b'Incorrect password' in rv.data
-    rv =  change_password(login_client, "12345", "123456")
+    rv = change_password(login_client, "12345", "123456")
     assert b'Password changed' in rv.data
-
 
 
 @pytest.mark.logged_user
@@ -136,10 +134,9 @@ def test_film_details_add_rem(login_client):
     assert b'Unable to add or remove movie to favorites' in rv.data
 
 
-
 @pytest.mark.logged_user
 def test_delete_user(login_client):
-    rv =  delete_user(login_client, "12345")
+    rv = delete_user(login_client, "12345")
     assert b'Incorrect password' in rv.data
-    rv =  delete_user(login_client, "123456")
+    rv = delete_user(login_client, "123456")
     assert b'the user test has been deleted' in rv.data
