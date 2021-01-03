@@ -94,7 +94,6 @@ def test_login(login_client):
 @pytest.mark.logged_user
 def test_log_favorits(login_client):
     rv = login_client.get('/favorites/')
-    print(rv)
     assert b'Favorite movies' in rv.data
 
 
@@ -112,20 +111,15 @@ def test_change_password(login_client):
     assert b'Password changed' in rv.data
 
 
-@pytest.mark.logged_user
-def test_search_add_rem(login_client):
-    addres = "/search/?film-title=test&page=1"
-    rv = add_rem_test_movie(login_client, addres, "add")
-    assert b'movie added to your favorites' in rv.data
-    rv = add_rem_test_movie(login_client, addres, "rem")
-    assert b'Movie deleted from favorites' in rv.data
-    rv = add_rem_test_movie(login_client, addres, "non")
-    assert b'Unable to add or remove movie to favorites' in rv.data
+addresses = [
+    "/search/?film-title=test&page=1",
+    "/test film/",
+]
 
 
 @pytest.mark.logged_user
-def test_film_details_add_rem(login_client):
-    addres = "/test film/"
+@pytest.mark.parametrize("addres", addresses)
+def test_add_and_remove_movie(login_client, addres):
     rv = add_rem_test_movie(login_client, addres, "add")
     assert b'movie added to your favorites' in rv.data
     rv = add_rem_test_movie(login_client, addres, "rem")
